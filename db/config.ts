@@ -4,6 +4,7 @@ const Serie = defineTable({
   columns: {
     id: column.number({ primaryKey: true }),
     name: column.text({ unique: true }),
+    image: column.text(),
     services: column.json(),
     seasons: column.json(),
     description: column.text(),

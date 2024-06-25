@@ -1,0 +1,62 @@
+---
+import { getSession } from 'auth-astro/server';
+import { SignIn, SignOut } from 'auth-astro/components';
+const session = await getSession(Astro.request);
+---
+
+<nav class="navbar">
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li>
+      {session 
+        ? <div>
+            <a href="/form">Subir serie</a>
+            <SignOut class="btn">Cerrar sesión</SignOut> 
+          </div>
+        : <SignIn class="btn" provider="google">Iniciar con Google</SignIn>
+      }
+    </li>
+  </ul>
+</nav>
+
+<style>
+.navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 1rem;
+}
+
+.nav-links {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-links li {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav-links li a:hover {
+  text-decoration: underline;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  background-color: #954fed;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+  .btn:hover {
+    background-color: #453264;
+  }
+</style>

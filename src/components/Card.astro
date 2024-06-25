@@ -11,72 +11,92 @@ interface Props {
 	n_califications: number;
 }
 
-const { session, id, name, services, seasons, description, categories, stars, n_califications } = Astro.props;
-
+const { session, id, image, name, services, seasons, description, categories, stars, n_califications } = Astro.props;
 ---
-
-<div>
-	<h2>
-		{name}
-	</h2>
-	<h2>
-		Estrellas: {stars} ({n_califications})
-	</h2>
-	<p>
-		{description}
-	</p>
-	{
-		Object.keys(services).map((service) => (
-			<p>{service}</p>
-		))
-	}
-	{
-		Object.keys(categories).map((category) => (
-			<p>{category}</p>
-		))
-	}
-	<table>
-		<th>Season</th>
-		<th>Episodes</th>
-		{
-			Object.entries(seasons).map(([season, episodes]) => (
-				<tr>
-					<td>{season}</td>
-					<td>{episodes}</td>
-				</tr>
+<div class="card">
+	<img src=`/images/${image}` alt="Imagen de la serie" class="serie-img">
+	<h3>{name}</h3>
+	<!-- <p>{description}</p> -->
+	<div class="details">
+<!-- 		
+		<p><span>Servicios:</span> {
+			Object.keys(services).map((service, index) => (
+			<>
+        {index > 0 && ', '}
+        {service}
+      </>
 			))
-		}
-		
-	</table>
-	{
-		session
-			? 
-			<form action="/api/add-comment" method="POST" style="display: grid">
-				<label for="content">Comentario</label>			
-				<textarea name="content"></textarea>
-
-				<label for="calification">Calificación</label>
-				<input type="number" name="calification" />
-
-				<input type="hidden" name="email" value={session.user.email} />
-				<input type="hidden" name="serieId" value={id} />
-				
-				<button type="submit">Enviar</button>
-			</form>
-
-			: <p>Debes iniciar sesión para publicar un comentario</p>
-	}
+		}</p>
+		<p><span>Temporadas:</span> {
+			Object.keys(seasons).map((season, index) => (
+      <>
+        {index > 0 && ', '}
+        {season}
+      </>
+    ))}
+		</p>
+		<p><span>Categorías:</span> {
+			Object.keys(categories).map((category, index) => (
+				<>
+					{index > 0 && ', '}
+					{category}
+				</>
+			))
+		}</p> -->
+		<p><span>Estrellas:</span> {stars}</p>
+		<p><span>Número de calificaciones:</span> {n_califications}</p>
+	</div>
 </div>
 
+<style>	
+	.card {
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    max-width: 300px;
+    margin: 16px;
+  }
 
-<style>
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.card .details {
+  margin-top: 12px;
+}
+
+.card .details span {
+  font-weight: bold;
+}
+
+.card .buttons {
+  margin-top: 12px;
+}
+
+.card .buttons button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.card .buttons button:hover {
+  background-color: #0056b3;
+}
+.serie-img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+}
+
 </style>
