@@ -13,40 +13,16 @@ interface Props {
 
 const { session, id, image, name, services, seasons, description, categories, stars, n_califications } = Astro.props;
 ---
-<div class="card">
-	<img src=`/images/${image}` alt="Imagen de la serie" class="serie-img">
-	<h3>{name}</h3>
-	<!-- <p>{description}</p> -->
-	<div class="details">
-<!-- 		
-		<p><span>Servicios:</span> {
-			Object.keys(services).map((service, index) => (
-			<>
-        {index > 0 && ', '}
-        {service}
-      </>
-			))
-		}</p>
-		<p><span>Temporadas:</span> {
-			Object.keys(seasons).map((season, index) => (
-      <>
-        {index > 0 && ', '}
-        {season}
-      </>
-    ))}
-		</p>
-		<p><span>Categorías:</span> {
-			Object.keys(categories).map((category, index) => (
-				<>
-					{index > 0 && ', '}
-					{category}
-				</>
-			))
-		}</p> -->
-		<p><span>Estrellas:</span> {stars}</p>
-		<p><span>Número de calificaciones:</span> {n_califications}</p>
+
+<a href={`/serie/${id}`}>
+	<div class="card" onclick="window.location.href = `/serie/${id}`">
+		<img src=`/images/${image}` alt="Imagen de la serie" class="serie-img">
+		<h3>{name}</h3>
+		<div class="details">
+			<p><span>Estrellas:</span> {stars} ({n_califications})</p>
+		</div>
 	</div>
-</div>
+</a>
 
 <style>	
 	.card {
@@ -55,7 +31,14 @@ const { session, id, image, name, services, seasons, description, categories, st
     border-radius: 8px;
     padding: 12px;
     max-width: 300px;
+		max-height: 380px;
     margin: 16px;
+		pointer: cursor;
+    transition: transform 0.2s ease;
+  }
+	
+	.card:hover {
+    transform: scale(1.05); /* Aumenta la escala al 105% del tamaño original */
   }
 
 .card h3 {
@@ -98,5 +81,10 @@ const { session, id, image, name, services, seasons, description, categories, st
 	display: block;
 	margin: 0 auto;
 }
+a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+  }
 
 </style>

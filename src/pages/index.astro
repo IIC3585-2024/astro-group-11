@@ -45,12 +45,6 @@ const services = [
 
 	<main>
 		<h1>Bienvenido a <span class="text-gradient">SeriesRec</span></h1>
-		{
-			session
-				? 
-				<p>Hola {session.user.name}</p>
-				: null
-		}
 		<h2>Listado de Series</h2>
 		{
 			<div class="card-container">
@@ -71,13 +65,6 @@ const services = [
 				))
 				}
 			</div>
-		}
-		
-		<h2>Listado de Comentarios</h2>
-		{
-			comments.map(({ email, content, calification }) => (
-				<p>{email} ({calification}): {content}</p>
-			))
 		}
 	</main>
 </Layout>
