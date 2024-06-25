@@ -3,19 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import { SignIn, SignOut } from 'auth-astro/components';
 import { getSession } from 'auth-astro/server';
+import { db, Serie, Comment } from 'astro:db';
 
 const session = await getSession(Astro.request);
 
-const serie = {
-	name: 'Serie 1',
-	services: ['Service 1', 'Service 2', 'Service 3'],
-	n_seasons: 3,
-	n_episodes_per_season: [10, 10, 10],
-	description : 'Serie 1 description',
-	categories: ['Category 1', 'Category 2', 'Category 3'],
-	califications: [4, 3, 5],
-	stars: 4.5
-}
+const series = await db.select().from(Serie);
+const comments = await db.select().from(Comment);
+
 ---
 
 <Layout title="SeriesRec">
@@ -25,6 +19,7 @@ const serie = {
 			session
 				? 
 				<p>Hola {session.user.name}</p>
+				
 				<SignOut>Cerrar sesión</SignOut>
 				: 
 				<SignIn provider="google">Iniciar con google</SignIn>
@@ -33,29 +28,37 @@ const serie = {
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
 		</p>
-		<h2>{serie.name}</h2>
-		<ul role="list" class="link-card-grid">
+		
+		
+		<h2>Listado de Comentarios</h2>
+		{
+			comments.map(({ email, content, calification }) => (
+				<p>{email} ({calification}): {content}</p>
+			))
+		}
+		<h2>Listado de Series</h2>
+		{
+			series.map(({ id, name, services, seasons, description, categories, stars, n_califications }) => (
+				<Card 
+					session={session}
+					id={id}
+					name={name}
+					services={services}
+					seasons={seasons}
+					description={description}
+					categories={categories}
+					stars={stars}
+					n_califications={n_califications}
+				/>			
+			))
+		}
+		<!-- <ul role="list" class="link-card-grid">
 			<Card
 				href="https://docs.astro.build/"
 				title="Documentation"
 				body="Learn how Astro works and explore the official API docs."
 			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
+		</ul> -->
 	</main>
 </Layout>
 
