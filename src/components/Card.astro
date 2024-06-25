@@ -11,72 +11,80 @@ interface Props {
 	n_califications: number;
 }
 
-const { session, id, name, services, seasons, description, categories, stars, n_califications } = Astro.props;
-
+const { session, id, image, name, services, seasons, description, categories, stars, n_califications } = Astro.props;
 ---
 
-<div>
-	<h2>
-		{name}
-	</h2>
-	<h2>
-		Estrellas: {stars} ({n_califications})
-	</h2>
-	<p>
-		{description}
-	</p>
-	{
-		Object.keys(services).map((service) => (
-			<p>{service}</p>
-		))
-	}
-	{
-		Object.keys(categories).map((category) => (
-			<p>{category}</p>
-		))
-	}
-	<table>
-		<th>Season</th>
-		<th>Episodes</th>
-		{
-			Object.entries(seasons).map(([season, episodes]) => (
-				<tr>
-					<td>{season}</td>
-					<td>{episodes}</td>
-				</tr>
-			))
-		}
-		
-	</table>
-	{
-		session
-			? 
-			<form action="/api/add-comment" method="POST" style="display: grid">
-				<label for="content">Comentario</label>			
-				<textarea name="content"></textarea>
+<a href={`/serie/${id}`}>
+	<div class="card" onclick="window.location.href = `/serie/${id}`">
+		<img src=`/images/${image}` alt="Imagen de la serie" class="serie-img">
+		<h3>{name}</h3>
+		<div class="details">
+			<p><span>Estrellas:</span> {stars} ({n_califications})</p>
+		</div>
+	</div>
+</a>
 
-				<label for="calification">Calificación</label>
-				<input type="number" name="calification" />
+<style>	
+	.card {
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    max-width: 300px;
+		max-height: 380px;
+    margin: 16px;
+		pointer: cursor;
+    transition: transform 0.2s ease;
+  }
+	
+	.card:hover {
+    transform: scale(1.05); /* Aumenta la escala al 105% del tamaño original */
+  }
 
-				<input type="hidden" name="email" value={session.user.email} />
-				<input type="hidden" name="serieId" value={id} />
-				
-				<button type="submit">Enviar</button>
-			</form>
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
 
-			: <p>Debes iniciar sesión para publicar un comentario</p>
-	}
-</div>
+.card p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
 
+.card .details {
+  margin-top: 12px;
+}
 
-<style>
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
+.card .details span {
+  font-weight: bold;
+}
+
+.card .buttons {
+  margin-top: 12px;
+}
+
+.card .buttons button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.card .buttons button:hover {
+  background-color: #0056b3;
+}
+.serie-img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+  }
+
 </style>

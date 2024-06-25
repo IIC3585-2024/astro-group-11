@@ -1,4 +1,6 @@
 import { db, Serie, Comment, eq } from 'astro:db';
+import { ensureDir } from 'fs-extra';
+import fs from 'fs-extra';
 
 export async function POST(context) {
   try {
@@ -54,7 +56,19 @@ export async function POST(context) {
     const seasons = {}
     episodes.map((episode, index) => (seasons[`${index+1}`] = Number(episode)));
 
+    const coverImageFile = formData.get('coverImage');
+    let coverImagePath = '/default.webp';
 
+    if (coverImageFile) {
+      const uploadDir = './public/images/';
+      await ensureDir(uploadDir);
+      
+      const filepath = uploadDir + coverImageFile.name;
+      const fileBuffer = await coverImageFile.arrayBuffer();
+      await fs.writeFile(filepath, Buffer.from(fileBuffer));
+
+      coverImagePath = `${coverImageFile.name}`;
+    }
 
     console.log(name, service, seasons, description, categories);
 
@@ -67,7 +81,8 @@ export async function POST(context) {
         },
         seasons: seasons,
         description: description,
-        categories: categories
+        categories: categories,
+        image: coverImagePath
       });
       console.log('Serie insertada');
     } else {

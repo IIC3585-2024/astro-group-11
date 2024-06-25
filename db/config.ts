@@ -4,11 +4,12 @@ const Serie = defineTable({
   columns: {
     id: column.number({ primaryKey: true }),
     name: column.text({ unique: true }),
+    image: column.text({ unique: false }),
     services: column.json(),
     seasons: column.json(),
     description: column.text(),
     categories: column.json(),
-    stars: column.number( { default: 1 } ),
+    stars: column.number( { default: 0 } ),
     n_califications: column.number( { default: 0 } ),
   }
 });

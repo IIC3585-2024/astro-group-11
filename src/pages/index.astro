@@ -4,6 +4,7 @@ import Card from '../components/Card.astro';
 import { SignIn, SignOut } from 'auth-astro/components';
 import { getSession } from 'auth-astro/server';
 import { db, Serie, Comment } from 'astro:db';
+import Navbar from "../components/Navbar.astro";
 
 const session = await getSession(Astro.request);
 
@@ -40,88 +41,31 @@ const services = [
 ---
 
 <Layout title="SeriesRec">
+	<Navbar />
+
 	<main>
 		<h1>Bienvenido a <span class="text-gradient">SeriesRec</span></h1>
-		{
-			session
-				? 
-				<p>Hola {session.user.name}</p>
-				
-				<SignOut>Cerrar sesión</SignOut>
-				: 
-				<SignIn provider="google">Iniciar con google</SignIn>
-		}
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-
-		<form action="/api/add-serie" method="POST" style="display: grid">
-			<label>
-				Nombre de la Serie
-				<input type="text" name="name" />
-			</label>
-			<label>
-				Servicio de Streaming
-				<select name="services" id="services">
-					{
-						services.map((service) => (
-							<option value={service}>{service}</option>
-						))
-					}
-				</select>
-			</label>
-			<label>
-				Descripción
-				<input type="text" name="description" />
-			</label>
-			<h4>Temporadas</h4>
-			<label for="seasons">
-				Episodios por Temporada
-				<input type="text" name="seasons" />
-			</label>
-			<h4>Categorías</h4>
-			{
-				genres.map((genre, index) => (
-					<label>
-						{genre} 
-						<input type="checkbox" name={`categorie${index}`} value={genre} />
-					</label>
-				))
-			}
-			<button type="submit">Enviar</button>
-		</form>
-		
-		
-		<h2>Listado de Comentarios</h2>
-		{
-			comments.map(({ email, content, calification }) => (
-				<p>{email} ({calification}): {content}</p>
-			))
-		}
 		<h2>Listado de Series</h2>
 		{
-			series.map(({ id, name, services, seasons, description, categories, stars, n_califications }) => (
-				<Card 
-					session={session}
-					id={id}
-					name={name}
-					services={services}
-					seasons={seasons}
-					description={description}
-					categories={categories}
-					stars={stars}
-					n_califications={n_califications}
-				/>			
-			))
+			<div class="card-container">
+				{
+				series.map(({ id, name, image, services, seasons, description, categories, stars, n_califications }) => (
+					<Card 
+						session={session}
+						id={id}
+						name={name}
+						image={image}
+						services={services}
+						seasons={seasons}
+						description={description}
+						categories={categories}
+						stars={stars}
+						n_califications={n_califications}
+					/>			
+				))
+				}
+			</div>
 		}
-		<!-- <ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-		</ul> -->
 	</main>
 </Layout>
 
@@ -181,5 +125,11 @@ const services = [
 		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
 		gap: 2rem;
 		padding: 0;
+	}
+	.card-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 20px;
+		padding: 20px;
 	}
 </style>

@@ -5,6 +5,7 @@ export default async function seed() {
 		{
 			id: 1,
 			name: 'Breaking Bad',
+			image: 'breaking_bad.jpg',
 			services: {
 				'Netflix': true
 			},
@@ -25,6 +26,7 @@ export default async function seed() {
 		{
 			id: 2,
 			name: 'Game of Thrones',
+			image: 'got.jpg',
 			services: {
 				'HBO': true
 			},
