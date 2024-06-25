@@ -1,15 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import { SignIn, SignOut } from 'auth-astro/components';
+import { getSession } from 'auth-astro/server';
+
+const session = await getSession(Astro.request);
+
+const serie = {
+	name: 'Serie 1',
+	services: ['Service 1', 'Service 2', 'Service 3'],
+	n_seasons: 3,
+	n_episodes_per_season: [10, 10, 10],
+	description : 'Serie 1 description',
+	categories: ['Category 1', 'Category 2', 'Category 3'],
+	califications: [4, 3, 5],
+	stars: 4.5
+}
 ---
 
 <Layout title="SeriesRec">
 	<main>
 		<h1>Bienvenido a <span class="text-gradient">SeriesRec</span></h1>
+		{
+			session
+				? 
+				<p>Hola {session.user.name}</p>
+				<SignOut>Cerrar sesión</SignOut>
+				: 
+				<SignIn provider="google">Iniciar con google</SignIn>
+		}
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
 		</p>
+		<h2>{serie.name}</h2>
 		<ul role="list" class="link-card-grid">
 			<Card
 				href="https://docs.astro.build/"
