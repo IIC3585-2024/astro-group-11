@@ -10,6 +10,33 @@ const session = await getSession(Astro.request);
 const series = await db.select().from(Serie);
 const comments = await db.select().from(Comment);
 
+const genres = [
+	'Drama',
+	'Comedia',
+	'Romance',
+	'Ciencia Ficcion',
+	'Acción',
+	'Thriller',
+	'Documental',
+	'Fantasía',
+	'Animación',
+	'Infantil'
+]
+
+const services = [
+	'Netflix',
+	'Amazon Prime',
+	'HBO',
+	'Disney+',
+	'Apple TV+',
+	'Paramount+',
+	'HBO Max',
+	'Discovery+',
+	'Crunchyroll',
+	'Viki',
+	'Otro'
+]
+
 ---
 
 <Layout title="SeriesRec">
@@ -28,6 +55,42 @@ const comments = await db.select().from(Comment);
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
 		</p>
+
+		<form action="/api/add-serie" method="POST" style="display: grid">
+			<label>
+				Nombre de la Serie
+				<input type="text" name="name" />
+			</label>
+			<label>
+				Servicio de Streaming
+				<select name="services" id="services">
+					{
+						services.map((service) => (
+							<option value={service}>{service}</option>
+						))
+					}
+				</select>
+			</label>
+			<label>
+				Descripción
+				<input type="text" name="description" />
+			</label>
+			<h4>Temporadas</h4>
+			<label for="seasons">
+				Episodios por Temporada
+				<input type="text" name="seasons" />
+			</label>
+			<h4>Categorías</h4>
+			{
+				genres.map((genre, index) => (
+					<label>
+						{genre} 
+						<input type="checkbox" name={`categorie${index}`} value={genre} />
+					</label>
+				))
+			}
+			<button type="submit">Enviar</button>
+		</form>
 		
 		
 		<h2>Listado de Comentarios</h2>
