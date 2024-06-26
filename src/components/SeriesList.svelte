@@ -41,7 +41,7 @@
   function applyFilters() {
     filteredSeries = series.filter(serie => {
       const categoryMatch = selectedCategory === '' || serie.categories.includes(selectedCategory);
-      const starsMatch = selectedStars === 0 || serie.stars === selectedStars;
+      const starsMatch = selectedStars === 0 || serie.stars <= selectedStars;
       const serviceMatch = selectedService === '' || serie.services.includes(selectedService);
       const textMatch = serie.name.toLowerCase().includes(filterText);
 
