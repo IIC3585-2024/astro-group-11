@@ -27,10 +27,9 @@ export async function POST(context) {
     } else {
       return new Response('Tipos de datos incorrectos', { status: 400 });
     }
+    return context.redirect(`../serie/${serieId}`);
   } catch (error) {
     console.error('Error al añadir el comentario:', error);
     return new Response('Error al añadir el comentario', { status: 500 });
   }
-
-  return context.redirect('/');
 }
