@@ -7,6 +7,7 @@ import SeriesList from '../components/SeriesList.svelte';
 
 const session = await getSession(Astro.request);
 const series = await db.select().from(Serie);
+console.log("En servidor")
 ---
 
 <Layout title="SeriesRec">
@@ -15,9 +16,13 @@ const series = await db.select().from(Serie);
 	<main>
 		<h1>Bienvenido a <span class="text-gradient">SeriesRec</span></h1>
 		
-		<SeriesList series={series} client:load/>
+		<SeriesList series={series} client:only="svelte" />
 	</main>
 </Layout>
+
+<script>
+	console.log("En cliente")
+</script>
 
 <style>
 	main {

@@ -40,37 +40,37 @@ export default async function seed() {
 		{
 			serieId: 1,
 			email: 'jhon1@example.com',
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl sit amet ultricies',
+			content: 'Muy buena serie.',
 			calification: 10
 		},
 		{
 			serieId: 1,
 			email: 'tom@example.com',
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl sit amet ultricies',
+			content: 'La recomiendo.',
 			calification: 10
 		},
 		{
 			serieId: 1,
 			email: 'dressler@example.com',
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl sit amet ultricies',
+			content: 'Lo mejor que he visto en mi vida.',
 			calification: 10
 		},
 		{
 			serieId: 2,
 			email: 'jhon1@example.com',
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl sit amet ultricies',
+			content: 'Buena seria.',
 			calification: 8
 		},
 		{
 			serieId: 2,
 			email: 'tom@example.com',
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl sit amet ultricies',
+			content: 'Muy buena serie.',
 			calification: 8
 		},
 		{
 			serieId: 2,
 			email: 'dressler@example.com',
-			content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl sit amet ultricies',
+			content: 'La recomiendo.',
 			calification: 8
 		}
 	]);

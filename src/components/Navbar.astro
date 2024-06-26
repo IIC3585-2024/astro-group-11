@@ -10,7 +10,7 @@ const session = await getSession(Astro.request);
     <li>
       {session 
         ? <div>
-            <a href="/form">Subir serie</a>
+            <a href="/form">Crear serie</a>
             <SignOut class="btn">Cerrar sesión</SignOut> 
           </div>
         : <SignIn class="btn" provider="google">Iniciar con Google</SignIn>
