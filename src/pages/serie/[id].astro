@@ -28,7 +28,7 @@ const comments = await db.select().from(Comment).where(
       <div class="serie-details">
         <h1>{serie && serie.name}</h1>
         <p>{serie && serie.description}</p>
-        <p><span>Servicios:</span> {serie && Object.keys(serie.services || {}).join(', ')}</p>
+        <p><span>Servicios:</span> {serie && (serie.services || {}).join(', ')}</p>
         <p><span>Temporadas:</span> {
           Object.keys(serie.seasons).map((season, index) => (
             <>
@@ -37,7 +37,7 @@ const comments = await db.select().from(Comment).where(
             </>
           ))
         }</p>
-        <p><span>Categorías:</span> {serie && Object.keys(serie.categories || {}).join(', ')}</p>
+        <p><span>Categorías:</span> {serie && (serie.categories || {}).join(', ')}</p>
         <p><span>Estrellas:</span> {serie && serie.stars} ({serie && serie.n_califications})</p>
       </div>
     </div>

@@ -1,43 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
-import { SignIn, SignOut } from 'auth-astro/components';
 import { getSession } from 'auth-astro/server';
-import { db, Serie, Comment } from 'astro:db';
+import { db, Serie } from 'astro:db';
 import Navbar from "../components/Navbar.astro";
+import SeriesList from '../components/SeriesList.svelte';
 
 const session = await getSession(Astro.request);
-
 const series = await db.select().from(Serie);
-const comments = await db.select().from(Comment);
-
-const genres = [
-	'Drama',
-	'Comedia',
-	'Romance',
-	'Ciencia Ficcion',
-	'Acción',
-	'Thriller',
-	'Documental',
-	'Fantasía',
-	'Animación',
-	'Infantil'
-]
-
-const services = [
-	'Netflix',
-	'Amazon Prime',
-	'HBO',
-	'Disney+',
-	'Apple TV+',
-	'Paramount+',
-	'HBO Max',
-	'Discovery+',
-	'Crunchyroll',
-	'Viki',
-	'Otro'
-]
-
 ---
 
 <Layout title="SeriesRec">
@@ -45,27 +14,8 @@ const services = [
 
 	<main>
 		<h1>Bienvenido a <span class="text-gradient">SeriesRec</span></h1>
-		<h2>Listado de Series</h2>
-		{
-			<div class="card-container">
-				{
-				series.map(({ id, name, image, services, seasons, description, categories, stars, n_califications }) => (
-					<Card 
-						session={session}
-						id={id}
-						name={name}
-						image={image}
-						services={services}
-						seasons={seasons}
-						description={description}
-						categories={categories}
-						stars={stars}
-						n_califications={n_califications}
-					/>			
-				))
-				}
-			</div>
-		}
+		
+		<SeriesList series={series} client:load/>
 	</main>
 </Layout>
 

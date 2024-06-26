@@ -6,9 +6,7 @@ export default async function seed() {
 			id: 1,
 			name: 'Breaking Bad',
 			image: 'breaking_bad.jpg',
-			services: {
-				'Netflix': true
-			},
+			services: ['Netflix'],
 			seasons: {
 				'1': 15,
 				'2': 15,
@@ -16,10 +14,7 @@ export default async function seed() {
 				'4': 15
 			},
 			description: 'The story of Walter White, a low-ranking stockbroker who tries to take advantage of the consequences of his actions.',
-			categories: {
-				'Drama': true,
-				'Crime': true
-			},
+			categories: ['Drama', 'Crime'],
 			stars: 10,
 			n_califications: 3
 		},
@@ -27,9 +22,7 @@ export default async function seed() {
 			id: 2,
 			name: 'Game of Thrones',
 			image: 'got.jpg',
-			services: {
-				'HBO': true
-			},
+			services: ['HBO'],
 			seasons: {
 				'1': 8,
 				'2': 8,
@@ -37,10 +30,7 @@ export default async function seed() {
 				'4': 8
 			},
 			description: 'Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.',
-			categories: {
-				'Fantasy': true,
-				'Action': true
-			},
+			categories: ['Fantasy', 'Action'],
 			stars: 8,
 			n_califications: 3
 		}
