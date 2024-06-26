@@ -1,4 +1,4 @@
-import { db, Serie, Comment, eq } from 'astro:db';
+import { db, Serie } from 'astro:db';
 import { ensureDir } from 'fs-extra';
 import fs from 'fs-extra';
 

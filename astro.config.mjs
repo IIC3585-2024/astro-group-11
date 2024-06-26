@@ -8,7 +8,7 @@ import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [auth(), db(), react(), svelte()],
+  integrations: [auth(), db(), svelte()],
   output: "server",
   adapter: node({
     mode: "standalone"

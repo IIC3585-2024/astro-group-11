@@ -1,143 +1,139 @@
----
-import Layout from '../layouts/Layout.astro';
-import { db, Serie, Comment } from 'astro:db';
-import Navbar from "../components/Navbar.astro";
+	---
+	import Layout from '../layouts/Layout.astro';
+	import { db, Serie, Comment } from 'astro:db';
+	import Navbar from "../components/Navbar.astro";
 
-const genres = [
-	'Drama',
-	'Comedia',
-	'Romance',
-	'Ciencia Ficcion',
-	'Acción',
-	'Thriller',
-	'Documental',
-	'Fantasía',
-	'Animación',
-	'Infantil'
-]
+	const genres = [
+		'Drama',
+		'Comedia',
+		'Romance',
+		'Ciencia Ficcion',
+		'Acción',
+		'Thriller',
+		'Documental',
+		'Fantasía',
+		'Animación',
+		'Infantil'
+	]
 
-const services = [
-	'Netflix',
-	'Amazon Prime',
-	'HBO',
-	'Disney+',
-	'Apple TV+',
-	'Paramount+',
-	'HBO Max',
-	'Discovery+',
-	'Crunchyroll',
-	'Viki',
-	'Otro'
-]
----
-
-<Layout>
-	<Navbar />
-
-  <main>
-    <form action="/api/add-serie" method="POST" style="display: grid" enctype="multipart/form-data">
-      <label>
-        Nombre de la Serie
-        <input type="text" name="name" />
-      </label>
-      <label>
-        Servicio de Streaming
-        <select name="services" id="services">
-          {
-            services.map((service) => (
-              <option value={service}>{service}</option>
-            ))
-          }
-        </select>
-      </label>
-      <label>
-        Descripción
-        <input type="text" name="description" />
-      </label>
-      <label>
-        Imagen de Portada
-        <input type="file" name="coverImage" accept="image/*" />
-      </label>
-      <h4>Temporadas</h4>
-      <label for="seasons">
-        Episodios por Temporada
-        <input type="text" name="seasons" />
-      </label>
-      <h4>Categorías</h4>
-      {
-        genres.map((genre, index) => (
-          <label>
-            {genre} 
-            <input type="checkbox" name={`categorie${index}`} value={genre} />
-          </label>
-        ))
-      }
-      <button type="submit">Enviar</button>
-    </form>
-  </main>
-</Layout>
-
-<style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
-	}
-	.card-container {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		gap: 20px;
-		padding: 20px;
-	}
-</style>
+	const services = [
+		'Netflix',
+		'Amazon Prime',
+		'HBO',
+		'Disney+',
+		'Apple TV+',
+		'Paramount+',
+		'HBO Max',
+		'Discovery+',
+		'Crunchyroll',
+		'Viki',
+		'Otro'
+	]
+	---
+	<Layout>
+		<Navbar />
+	
+		<main>
+			<form action="/api/add-serie" method="POST" enctype="multipart/form-data" class="serie-form">
+				<div class="form-group">
+					<label for="name">Nombre de la Serie</label>
+					<input type="text" id="name" name="name" class="input-field" />
+				</div>
+				
+				<div class="form-group">
+					<label for="services">Servicio de Streaming</label>
+					<select id="services" name="services" class="input-field">
+						{
+							services.map((service) => (
+								<option value={service}>{service}</option>
+							))
+						}
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="description">Descripción</label>
+					<textarea id="description" name="description" rows="4" class="input-field"></textarea>
+				</div>
+				
+				<div class="form-group">
+					<label for="coverImage">Imagen de Portada</label>
+					<input type="file" id="coverImage" name="coverImage" accept="image/*" class="input-field" />
+				</div>
+				
+				<div class="form-group">
+					<h4>Temporadas</h4>
+					<input type="text" id="seasons" name="seasons" class="input-field" />
+				</div>
+				
+				<div class="form-group">
+					<h4>Categorías</h4>
+					{
+						genres.map((genre, index) => (
+							<label key={index} class="checkbox-label">
+								<input type="checkbox" name={`categorie${index}`} value={genre} />
+								{genre}
+							</label>
+						))
+					}
+				</div>
+				
+				<button type="submit" class="submit-button">Enviar</button>
+			</form>
+		</main>
+	</Layout>
+	
+	<style>
+		main {
+			margin: auto;
+			padding: 1rem;
+			width: 800px;
+			max-width: calc(100% - 2rem);
+			color: white;
+			font-size: 20px;
+			line-height: 1.6;
+		}
+	
+		.serie-form {
+			display: grid;
+			gap: 1rem;
+		}
+	
+		.form-group {
+			margin-bottom: 1rem;
+		}
+	
+		.form-group label {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
+	
+		.input-field {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+	
+		.checkbox-label {
+			display: block;
+			margin-top: 0.5rem;
+		}
+	
+		.submit-button {
+			padding: 10px 20px;
+			background-color: #954fed;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 18px;
+		}
+	
+		.submit-button:hover {
+			background-color: #453264;
+		}
+	</style>
+	
