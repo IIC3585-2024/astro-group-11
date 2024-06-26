@@ -1,0 +1,200 @@
+---
+import { getSession } from 'auth-astro/server';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { db, Serie, Comment, like, eq } from 'astro:db';
+
+const session = await getSession(Astro.request);
+const serieId = Astro.params.id;
+
+const series = await db.select().from(Serie).where(
+    eq(Serie.id, serieId)
+);
+const serie = series[0];
+
+const comments = await db.select().from(Comment).where(
+    eq(Comment.serieId, serie.id)
+);
+---
+
+<Layout>
+  <Navbar />
+
+  <main>
+    <div class="serie-container">
+      <div class="serie-image">
+        <img src={`/images/${serie && serie.image}`} alt="Imagen de la serie" />
+      </div>
+      <div class="serie-details">
+        <h1>{serie && serie.name}</h1>
+        <p>{serie && serie.description}</p>
+        <p><span>Servicios:</span> {serie && (serie.services || {}).join(', ')}</p>
+        <p><span>Temporadas:</span> {
+          Object.keys(serie.seasons).map((season, index) => (
+            <>
+              {index > 0 && ', '}
+              {season} ({serie.seasons[season]})
+            </>
+          ))
+        }</p>
+        <p><span>Categorías:</span> {serie && (serie.categories || {}).join(', ')}</p>
+        <p><span>Estrellas:</span> {serie && serie.stars} ({serie && serie.n_califications})</p>
+      </div>
+    </div>
+
+    {/* Sección de comentarios */}
+    <div class="comments-section">
+      <h2>Comentarios:</h2>
+        {comments.map((comment, index) => (
+          <div key={index} class="comment-card">
+          <div class="comment-header">
+            <p><strong>{comment.email}</strong></p>
+            <p>{comment.calification} estrellas</p>
+          </div>
+          <p>{comment.content}</p>
+        </div>
+        ))}
+      {session
+        ?
+          <form class="comment-card" action="/api/add-comment" method="POST" style="display: grid">
+            <label>
+              <p>Comentario:</p>
+              <input type="text" name="content" class="input-content"/>
+            </label>
+            <label>
+              <p>Clasificación:</p>
+              <input type="number" name="calification" class="input-clasification"/>
+            </label>
+            <input type="hidden" name="email" value={session.user.email} />
+            <input type="hidden" name="serieId" value={serie.id} />
+            <button type="submit" class="button-comment">Enviar</button>
+          </form>
+        : null
+      }
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  .serie-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .serie-image {
+    flex: 0 0 auto;
+    margin-top: 2rem;
+    align-self: flex-start;
+    margin-right: 1rem;
+  }
+
+  .serie-image img {
+    max-width: 300px;
+    height: auto;
+    display: block;
+  }
+
+  .serie-details {
+    flex: 1;
+  }
+
+  .serie-details h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .serie-details p {
+    margin-bottom: 1rem;
+  }
+
+  .serie-details p span {
+    font-weight: bold;
+  }
+
+  .comments-section {
+    margin-top: 2rem;
+  }
+
+  .comments-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .comments-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .comment-card {
+    background-color: #333;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .comment-card .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .comment-card .comment-header p {
+    margin: 0;
+  }
+
+  .comment-card p {
+    color: white;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .comment-card strong {
+    font-weight: bold;
+    color: #954fed;
+  }
+
+  .input-content {
+    padding: 8px; 
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    width: 100%; 
+    box-sizing: border-box;
+  }
+
+  .input-clasification {
+    padding: 8px; 
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    box-sizing: border-box;
+    width: 50px;
+  }
+
+.button-comment {
+  padding: 8px 16px;
+  border: none;
+  background-color: #954fed;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 16px;
+  max-width: 100px;
+  justify-self: right;
+}
+
+  .button-comment:hover {
+    background-color: #453264;
+  }
+</style>

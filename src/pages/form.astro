@@ -1,0 +1,139 @@
+	---
+	import Layout from '../layouts/Layout.astro';
+	import { db, Serie, Comment } from 'astro:db';
+	import Navbar from "../components/Navbar.astro";
+
+	const genres = [
+		'Drama',
+		'Comedia',
+		'Romance',
+		'Ciencia Ficcion',
+		'Acción',
+		'Thriller',
+		'Documental',
+		'Fantasía',
+		'Animación',
+		'Infantil'
+	]
+
+	const services = [
+		'Netflix',
+		'Amazon Prime',
+		'HBO',
+		'Disney+',
+		'Apple TV+',
+		'Paramount+',
+		'HBO Max',
+		'Discovery+',
+		'Crunchyroll',
+		'Viki',
+		'Otro'
+	]
+	---
+	<Layout>
+		<Navbar />
+	
+		<main>
+			<form action="/api/add-serie" method="POST" enctype="multipart/form-data" class="serie-form">
+				<div class="form-group">
+					<label for="name">Nombre de la Serie</label>
+					<input type="text" id="name" name="name" class="input-field" />
+				</div>
+				
+				<div class="form-group">
+					<label for="services">Servicio de Streaming</label>
+					<select id="services" name="services" class="input-field">
+						{
+							services.map((service) => (
+								<option value={service}>{service}</option>
+							))
+						}
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="description">Descripción</label>
+					<textarea id="description" name="description" rows="4" class="input-field"></textarea>
+				</div>
+				
+				<div class="form-group">
+					<label for="coverImage">Imagen de Portada</label>
+					<input type="file" id="coverImage" name="coverImage" accept="image/*" class="input-field" />
+				</div>
+				
+				<div class="form-group">
+					<h4>Temporadas</h4>
+					<input type="text" id="seasons" name="seasons" class="input-field" />
+				</div>
+				
+				<div class="form-group">
+					<h4>Categorías</h4>
+					{
+						genres.map((genre, index) => (
+							<label key={index} class="checkbox-label">
+								<input type="checkbox" name={`categorie${index}`} value={genre} />
+								{genre}
+							</label>
+						))
+					}
+				</div>
+				
+				<button type="submit" class="submit-button">Enviar</button>
+			</form>
+		</main>
+	</Layout>
+	
+	<style>
+		main {
+			margin: auto;
+			padding: 1rem;
+			width: 800px;
+			max-width: calc(100% - 2rem);
+			color: white;
+			font-size: 20px;
+			line-height: 1.6;
+		}
+	
+		.serie-form {
+			display: grid;
+			gap: 1rem;
+		}
+	
+		.form-group {
+			margin-bottom: 1rem;
+		}
+	
+		.form-group label {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
+	
+		.input-field {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+	
+		.checkbox-label {
+			display: block;
+			margin-top: 0.5rem;
+		}
+	
+		.submit-button {
+			padding: 10px 20px;
+			background-color: #954fed;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 18px;
+		}
+	
+		.submit-button:hover {
+			background-color: #453264;
+		}
+	</style>
+	
